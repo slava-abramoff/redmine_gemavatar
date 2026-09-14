@@ -1,4 +1,4 @@
-# Gemavatar (Redmine 3+)
+# Gemavatar (Redmine 6+)
 
 ## Disclaimer
 This is a fork made for a fork that forked a fork which adapts this plugin for Redmine 6. This fork fixes the issue with avatar styles.
@@ -12,7 +12,7 @@ Installation
 ------------
 
 Git clone the repo in the plugins folder
-`git clone git@gitlab.com:aguarino/gemavatar.git`
+`git clone https://github.com/slava-abramoff/redmine_gemavatar.git`
 
 Please be sure that the folder is named `redmine_gemavatar`
 
@@ -34,8 +34,4 @@ There you must set:
 - Whether to allow users to refetch their own avatar from AD.
 - The string that defines the property in your LDAP server where the photo is stored (`thumbnailphoto` works for me, but `jpegphoto` was the original plugin value)
 
-Checking that it works
-----------------------
 
-* Just go to your user page, and your avatar should be visible there.
-* Note that the jpeg pictures are **automatically cropped to be squared**

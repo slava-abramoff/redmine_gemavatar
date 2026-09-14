@@ -15,33 +15,32 @@
 
 module GemAvatarPlugin
 
-    class GemAvatarHooks < Redmine::Hook::ViewListener
-        render_on :view_my_account, :partial => 'hooks/reload'
-    end
+  class GemAvatarHooks < Redmine::Hook::ViewListener
+      render_on :view_my_account, :partial => 'hooks/reload'
+  end
 
-    module AvatarsHelperGemavatarPatch
+  module AvatarsHelperGemavatarPatch
 
-        def avatar (user, options = { })
-            if Setting.gravatar_enabled? && user.is_a?(User)
-                # avoid mutating caller's hash and normalize keys
-                opts = options.to_h.symbolize_keys
-                opts[:ssl] = request&.ssl?
-                opts[:default] ||= Setting.gravatar_default
-                opts[:size] ||= 24
+      def avatar (user, options = { })
+        if Setting.gravatar_enabled? && user.is_a?(User)
+      # avoid mutating caller's hash and normalize keys
+          opts = options.to_h.symbolize_keys
+          opts[:ssl] = request&.ssl?
+          opts[:default] ||= Setting.gravatar_default
+          opts[:size] ||= 24
 
-                # Build the avatar URL (preserve original behavior - controller/action used by original plugin)
-                avatar_url = url_for(controller: :pictures, action: :delete, user_id: user)
+          # Build the avatar URL (preserve original behavior - controller/action used by original plugin)
+          avatar_url = url_for(controller: :pictures, action: :delete, user_id: user)
 
-                # Use Rails tag helper rather than raw HTML + html_safe
-                tag.img(class: 'avatar gravatar',
-                        width: opts[:size],
-                        height: opts[:size],
-                        src: avatar_url)
-            else
-                super(user, options)
-            end
+          # Use Rails tag helper rather than raw HTML + html_safe
+          tag.img(class: 'avatar gravatar',
+                  width: opts[:size],
+                  height: opts[:size],
+                  src: avatar_url)
+        else
+          super(user, options)
         end
+      end
 
     end
 end
-

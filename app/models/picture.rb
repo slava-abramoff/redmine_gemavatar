@@ -15,12 +15,7 @@
 
 require 'net/ldap'
 
-class Picture < ActiveRecord::Base
-    unloadable
-
-    def self.get_by_user_id(uid)
-        Picture.where(:user_id => uid).first
-    end
+class Picture < ApplicationRecord
 
     def self.initialize_ldap_con(record)
 
@@ -59,33 +54,29 @@ class Picture < ActiveRecord::Base
             File.open(location, 'wb') { |f| f.write(picture_data)}
 
             #crop the avatar to be square
-            original = Magick::Image.read(location)[0]
-            width = original.columns
-            y = (original.rows-width)/2
-            if y<0
-                y=0
-            end
-            croppedimage = original.crop(0,y,width,width)
-            croppedimage.write(location)
+            #original = Magick::Image.read(location)[0]
+            #width = original.columns
+            #y = (original.rows-width)/2
+            #if y<0
+            #    y=0
+            #end
+            #croppedimage = original.crop(0,y,width,width)
+            #croppedimage = original.crop(0,0,width,width)
+            #croppedimage.write(location)
         end
-        Picture.create(:location => location, :user_id => user_id, :created => DateTime.now.to_date)
+        Picture.create(:location => location, :user_id => user_id)
     end
 
     def self.location_from_login(login)
-        filename = File.dirname(__FILE__)
-        plugin_dir = File.expand_path(File.dirname(File.dirname(filename)))
-        File.join(plugin_dir, 'assets', 'images', login+'.jpg')
+        File.join(Redmine::Plugin.find(:redmine_gemavatar).directory,'assets', 'images',"#{login}.jpg")
     end
 
     def self.spock_location()
-        filename = File.dirname(__FILE__)
-        plugin_dir = File.expand_path(File.dirname(File.dirname(filename)))
-        File.join(plugin_dir, 'assets', 'images', 'avatar.png')
+        File.join(Redmine::Plugin.find(:redmine_gemavatar).directory,'assets', 'images',"vulcan_avatar.jpg")
     end
 
     def old?
         max_time = Setting.plugin_redmine_gemavatar['refresh_days'].to_f
-        now = DateTime.now.to_date
-        (now - self.created).to_f > max_time
+        self.created_at < max_time.days.ago
     end
 end
