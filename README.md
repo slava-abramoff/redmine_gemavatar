@@ -1,8 +1,7 @@
 # Gemavatar (Redmine 3+)
 
 ## Disclaimer
-This project is a fork of the excellent https://bitbucket.org/celebdor/gemavatar
-Since there have been no updates since a while, I decided to update it to make it Redmine 3+ compatible.
+This is a fork made for a fork that forked a fork which adapts this plugin for Redmine 6. This fork fixes the issue with avatar styles.
 
 ## About
 ``Gemavatar`` is a ``Redmine`` plugin for replacing the gravatars (they must 
